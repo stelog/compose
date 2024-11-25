@@ -1,0 +1,13 @@
+services:
+  autoheal:
+    image: willfarrell/autoheal:latest
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1"
+    #environment:
+      #- AUTOHEAL_CONTAINER_LABEL=all
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped

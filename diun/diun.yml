@@ -1,0 +1,7 @@
+notif:
+  telegram:
+    token: <token id>
+    chatIDs:
+      - <chat ID>
+    templateBody: |
+      Docker tag {{ .Entry.Image }} which you subscribed to through {{ .Entry.Provider }} provider has been released.

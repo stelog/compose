@@ -1,0 +1,32 @@
+services:
+  scrutiny:
+    container_name: scrutiny
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    cap_add:
+      - SYS_RAWIO
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "1"
+    ports:
+      - "8085:8080" # webapp
+      - "8086:8086" # influxDB admin
+    volumes:
+      - /run/udev:/run/udev:ro
+      - ./config:/opt/scrutiny/config
+      - ./influxdb:/opt/scrutiny/influxdb
+    devices:
+      - "/dev/sda"
+      - "/dev/sdb"
+      - "/dev/sdc"
+      - "/dev/sdd"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8080"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 2m
+    labels:
+      - autoheal=true
+    restart: unless-stopped
